@@ -56,8 +56,8 @@ def get_prediction(image_tensor):
     image_tensor = image_tensor.unsqueeze_(0)
     model = load_checkpoint(PATH)
     outputs = model(image_tensor)
-    _, predicted = torch.max(outputs.data, 1)
-    return chr(97+predicted.item())
+    # _, predicted = torch.max(outputs.data, 1)
+    return outputs.squeeze().detach().numpy()
 
 
 PATH = 'app/model.pth'
