@@ -29,7 +29,7 @@ def predict(image):
 
 
 # Specify brush parameters and drawing mode
-stroke_width = st.sidebar.slider("Stroke width: ", 1, 100, 40)
+stroke_width = st.sidebar.slider("Stroke width: ", 1, 100, 25)
 drawing_mode = st.sidebar.selectbox(
     "Drawing tool:", ("freedraw", "transform")
 )
