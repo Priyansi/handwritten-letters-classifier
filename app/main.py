@@ -5,10 +5,11 @@ from torch_utils import transform_image,  get_prediction
 from PIL import Image
 import numpy as np
 import pandas as pd
+import time
 
-st.beta_set_page_config(
+st.set_page_config(
     page_title="Handwritten Letters Classifier",
-    page_icon=":new_moon_with_face:",
+    page_icon=":pencil:",
 )
 
 
@@ -42,9 +43,7 @@ def np_to_df(outputs):  # Create a 2D array for the dataframe instead of a 1D ar
 
 # Specify brush parameters and drawing mode
 stroke_width = st.sidebar.slider("Stroke width: ", 1, 100, 25)
-drawing_mode = st.sidebar.selectbox(
-    "Drawing tool:", ("freedraw", "transform")
-)
+
 
 # Create a canvas component
 canvas_result = st_canvas(
@@ -53,7 +52,7 @@ canvas_result = st_canvas(
     background_color="#000",
     height=280,
     width=280,
-    drawing_mode=drawing_mode,
+    drawing_mode="freedraw",
     key="canvas",
 )
 
@@ -64,8 +63,14 @@ if canvas_result.image_data is not None and result:
     ind_max = np.where(outputs == max(outputs))[
         0][0]  # Index of the max element
     # Converting index to equivalent letter
-    st.write("### Prediction : **{}**".format(chr(97 + ind_max)))
+    progress_bar = st.progress(0)
+    for i in range(100):
+        progress_bar.progress(i + 1)
+        time.sleep(0.01)
+    st.markdown("<h3 style = 'text-align: center;'>Prediction : {}<h3>".format(
+        chr(97 + ind_max)), unsafe_allow_html=True)
     chart_data = pd.DataFrame(np_to_df(outputs), index=[
                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'], columns=[
                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
     st.bar_chart(chart_data)
+    st.balloons()
