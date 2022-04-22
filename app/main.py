@@ -6,6 +6,9 @@ import numpy as np
 import pandas as pd
 import time
 
+from torch.nn.functional import softmax
+import torch
+
 st.set_page_config(
     page_title="Handwritten Letters Classifier",
     page_icon=":pencil:",
@@ -32,6 +35,7 @@ def predict(image):
 
 def np_to_df(outputs):  # Create a 2D array for the dataframe instead of a 1D array
     length = outputs.shape[0]  # Total outputs
+    outputs = softmax(torch.from_numpy(outputs / 3.5), dim=0).cpu().detach().numpy()
     arr = []
     for pos in range(0, length):
         line = [0]*26
