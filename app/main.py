@@ -1,4 +1,3 @@
-from numpy.core.defchararray import title
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from torch_utils import transform_image,  get_prediction

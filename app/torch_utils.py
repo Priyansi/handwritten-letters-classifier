@@ -4,6 +4,7 @@ import torch.nn as nn
 import torchvision.transforms as T
 import torch.nn.functional as F
 
+PATH = 'app/model_final.pth'
 
 class EMNIST(nn.Module):
     def __init__(self):
@@ -59,5 +60,3 @@ def get_prediction(image_tensor):
     # _, predicted = torch.max(outputs.data, 1)
     return outputs.squeeze().detach().numpy()
 
-
-PATH = 'app/model.pth'
